@@ -188,7 +188,6 @@ class AttnProcsLayers(torch.nn.Module):
 class UNet2DConditionLoadersMixin:
     text_encoder_name = TEXT_ENCODER_NAME
     unet_name = UNET_NAME
-    aux_state_dict_populated = None
 
     def load_attn_procs(self, pretrained_model_name_or_path_or_dict: Union[str, Dict[str, torch.Tensor]], **kwargs):
         r"""
@@ -1434,7 +1433,7 @@ class LoraLoaderMixin:
             else:
                 self.unet.set_default_attn_processor()
 
-            if self.unet.aux_state_dict_populated:
+            if getattr(self.unet, "aux_state_dict_populated", None):
                 for _, module in self.unet.named_modules():
                     if hasattr(module, "lora_layer") and module.lora_layer is not None:
                         module.lora_layer = None
