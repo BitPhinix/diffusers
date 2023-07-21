@@ -340,6 +340,7 @@ class UNet2DConditionLoadersMixin:
 
                 attn_processor = self
                 for sub_key in key.split("."):
+                    print(key)
                     attn_processor = getattr(attn_processor, sub_key)
 
                 if isinstance(
